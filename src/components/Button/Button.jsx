@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { LoadMoreButton } from './Button.styled'
 import PropTypes from 'prop-types'
 
-function Button({ text, onClick, page }) {
+function Button({ text, onClick, page, response }) {
   useEffect(() => {
     if (page > 1) {
       window.scrollTo({
@@ -10,7 +10,7 @@ function Button({ text, onClick, page }) {
         behavior: 'smooth',
       })
     }
-  }, [page])
+  }, [page, response])
 
   return (
     <LoadMoreButton type="button" onClick={onClick}>
