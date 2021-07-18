@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { ToastContainer } from 'react-toastify'
-// import fetchApi from './services/pixabayApi'
+
 import Searchbar from './components/Searchbar'
 import ImageGallery from './components/ImageGallery'
 import Button from './components/Button'
@@ -15,13 +15,7 @@ const App = () => {
   const [error, setError] = useState(null)
   const [showModal, setShowModal] = useState(false)
   const [largeImage, setLargeImage] = useState('')
-  const isFirstRender = useRef(true)
-
-  // if (isFirstRender.current) {
-  //     console.log(isFirstRender)
-  //     isFirstRender.current = false
-  //     return
-  //   }
+  // const isFirstRender = useRef(true)
 
   useEffect(() => {
     if (searchImage === null) {
@@ -38,9 +32,9 @@ const App = () => {
         return Promise.reject(new Error(`Word ${searchImage} is not exist`))
       })
       .then((data) => setImage((prevState) => [...prevState, ...data.hits]))
-      .catch((error) => setError({ error }))
-      .finally(() => setLoading(false))
-    return () => {}
+      .catch((error) => setError(error))
+      .finally(setLoading)
+    // return () => {}
   }, [searchImage, page])
 
   const onClickLoadMore = () => {
@@ -52,9 +46,12 @@ const App = () => {
     setLargeImage(data)
   }
 
-  const modalHide = () => {
-    setShowModal(false)
-  }
+  // const modalHide = () => {
+  //   setShowModal(false)
+  // }
+  //=====вместо этой функции-обертки можно исользовать просто метод setShowModal
+  //Точно также с каждым методом, который соответствует начальному значению.
+  //Например, вместо () => setLoading(false) используем просто setLoading
 
   const onFormSubmit = (img) => {
     setSearchImage(img)
@@ -78,7 +75,7 @@ const App = () => {
         />
       )}
       {loading && <Loader />}
-      {showModal && <Modal onClose={modalHide} onOpen={largeImage} />}
+      {showModal && <Modal onClose={setShowModal} onOpen={largeImage} />}
 
       <ToastContainer position="top-center" autoClose={2000} />
     </div>

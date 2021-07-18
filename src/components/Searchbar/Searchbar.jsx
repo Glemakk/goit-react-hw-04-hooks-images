@@ -9,6 +9,7 @@ import {
 } from './Searchbar.styled'
 
 const Searchbar = ({ onSubmit }) => {
+  // console.log(onSubmit.length)
   const [query, setQuery] = useState('')
 
   const handleChange = ({ target }) => {
